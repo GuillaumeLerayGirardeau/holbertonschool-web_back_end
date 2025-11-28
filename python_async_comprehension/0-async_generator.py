@@ -6,9 +6,10 @@ Function that loop 10 times, wait 1 second, then yield a random number
 
 import asyncio
 import random
+from typing import AsyncGenerator
 
 
-async def async_generator():
+async def async_generator() -> AsyncGenerator[float]:
     """
     Execute the function async_generator
     """

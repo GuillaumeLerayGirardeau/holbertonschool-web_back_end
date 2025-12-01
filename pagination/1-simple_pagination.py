@@ -48,7 +48,7 @@ class Server:
             list_data = list(data)
             return_list = []
             if len(list_data) >= page_index[1]:
-                start = page_index[0]
+                start = page_index[0] + 1
                 while start <= page_index[1]:
                     return_list.append(list_data[start])
                     start += 1

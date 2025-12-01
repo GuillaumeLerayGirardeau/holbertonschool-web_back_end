@@ -44,7 +44,7 @@ class Server:
         assert isinstance(page_size, int) and page_size > 0
         page_index = index_range(page, page_size)
         with open("Popular_Baby_Names.csv") as csvfile:
-            data = csv.reader(csvfile, delimiter=' ')
+            data = csv.reader(csvfile, delimiter=',')
             list_data = list(data)
             return_list = []
             if len(list_data) >= page_index[1]:

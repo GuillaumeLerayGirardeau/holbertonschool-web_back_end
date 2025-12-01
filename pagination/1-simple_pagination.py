@@ -42,14 +42,6 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
-        page_index = index_range(page, page_size)
-        with open("Popular_Baby_Names.csv") as csvfile:
-            data = csv.reader(csvfile, delimiter=',')
-            list_data = list(data)
-            return_list = []
-            if len(list_data) >= page_index[1]:
-                start = page_index[0] + 1
-                while start <= page_index[1]:
-                    return_list.append(list_data[start])
-                    start += 1
-            return return_list
+        start, end = index_range(page, page_size)
+        dataset = self.dataset()
+        return dataset[start:end]

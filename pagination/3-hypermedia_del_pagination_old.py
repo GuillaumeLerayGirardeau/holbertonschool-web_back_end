@@ -46,15 +46,15 @@ class Server:
         """
         Return data with index and next index infos
         """
-        dataset = self.indexed_dataset()
-        assert index <= len(dataset)
+        assert index <= len(self.__dataset)
         assert index >= 0
-
+        self.__init__()
+        self.dataset()
+        dataset = self.indexed_dataset()
         index_counter = index
         data = []
-        while len(data) < page_size and index_counter < len(dataset):
-            if index_counter in dataset:
-                data.append(dataset[index_counter])
+        for _ in range(page_size):
+            data.append(dataset[index_counter])
             index_counter += 1
         return {
             'index': index,

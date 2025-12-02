@@ -43,22 +43,22 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-            """
-            Return data with index and next index infos
-            """
-            assert index <= len(self.__dataset)
-            assert index >= 0
-            self.__init__()
-            self.dataset()
-            dataset = self.indexed_dataset()
-            index_counter = index
-            data = []
-            for _ in range(page_size):
-                 data.append(dataset[index_counter])
-                 index_counter += 1
-            return {
-                 'index': index,
-                 'data': data,
-                 'page_size': page_size,
-                 'next_index': index + len(data)
-            }
+        """
+        Return data with index and next index infos
+        """
+        assert index <= len(self.__dataset)
+        assert index >= 0
+        self.__init__()
+        self.dataset()
+        dataset = self.indexed_dataset()
+        index_counter = index
+        data = []
+        for _ in range(page_size):
+            data.append(dataset[index_counter])
+            index_counter += 1
+        return {
+            'index': index,
+            'data': data,
+            'page_size': page_size,
+            'next_index': index + len(data)
+        }

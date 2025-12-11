@@ -28,10 +28,12 @@ export default class HolbertonClass {
         return this._size;
     }
 
+    // When the object is converted to a Number (Number(instance_name))
     valueOf() {
         return this._size;
     }
 
+    // When the object is converted to a String
     toString() {
         return this._location;
     }

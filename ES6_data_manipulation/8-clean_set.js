@@ -11,9 +11,7 @@ export default function cleanSet(set, startString) {
             }
         }
         return finalString;
-    } else if(startString === '') {
-        return '';
     } else {
-        throw new Error("You must use a set and a string");
+        return '';
     }
 }

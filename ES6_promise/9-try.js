@@ -4,6 +4,6 @@ export default function guardrail(mathFunction) {
         const result = mathFunction();
         return [result, 'Guardrail was processed'];
     } catch (error){
-        return [error, 'Guardrail was processed'];
+        return [String(error), 'Guardrail was processed'];
     }
 }

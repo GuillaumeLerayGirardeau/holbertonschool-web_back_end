@@ -43,7 +43,7 @@ const app = http.createServer(async (req, res) => {
       );
       res.write(lines.join('\n'));
     } catch (error) {
-      throw new Error('Cannot load the database');
+      return res.end('Cannot load the database');
     }
     return res.end();
   }

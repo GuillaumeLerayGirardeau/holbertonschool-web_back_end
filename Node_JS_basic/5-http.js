@@ -18,17 +18,24 @@ const app = http.createServer(async (req, res) => {
     try {
       const logs = [];
       const originalLog = console.log;
+
       console.log = (...args) => {
         logs.push(args.join(' '));
         originalLog(...args);
       };
+
       await countStudents(databasePath);
+
       console.log = originalLog;
+
+      res.write('This is the list of our students\n');
       res.write(logs.join('\n'));
+      return res.end();
+
     } catch (error) {
+      console.log = originalLog;
       return res.end('Cannot load the database');
     }
-    return res.end();
   }
   res.writeHead(404, { 'Content-type': 'text/plain' });
   return res.end('Page not found');

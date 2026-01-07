@@ -13,9 +13,9 @@ app.get('/', (req, res) => {
 app.get('/students', async (req, res) => {
   let output = 'This is the list of our students\n';
 
+  const originalLog = console.log;
   try {
     const logs = [];
-    const originalLog = console.log;
 
     console.log = (...args) => {
       logs.push(args.join(' '));
@@ -33,7 +33,6 @@ app.get('/students', async (req, res) => {
     res.send('Cannot load the database');
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);

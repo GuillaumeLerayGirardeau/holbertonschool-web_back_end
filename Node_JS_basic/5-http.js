@@ -19,7 +19,9 @@ const app = http.createServer(async (req, res) => {
     try {
       const studentData = await fs.readFile(databasePath, 'utf8');
       res.write('This is the list of our students\n');
-      const allStudent = studentData.split('\n').slice(1).filter((student) => student.length > 0);
+      const allStudent = studentData.split('\n').slice(1).filter(
+        (student) => student.length > 0,
+      );
       res.write(`Number of students: ${allStudent.length}\n`);
 
       const allSeparatedDatas = [];
@@ -37,8 +39,8 @@ const app = http.createServer(async (req, res) => {
         fields[field].push(firstname);
       }
       const lines = Object.keys(fields).map(
-        (field) => `Number of students in ${field}: ${fields[field].length}.
-         List: ${fields[field].join(', ')}`,
+        (field) => `Number of students in ${field}: ${
+          fields[field].length}. List: ${fields[field].join(', ')}`,
       );
       res.write(lines.join('\n'));
     } catch (error) {

@@ -5,7 +5,6 @@ const hostname = '127.0.0.1';
 const port = 1245;
 
 const databasePath = process.argv[2];
-console.log(databasePath);
 
 /* req : request || res : response */
 /* Le return evite des else if et rend le code plus lisible et robuste */

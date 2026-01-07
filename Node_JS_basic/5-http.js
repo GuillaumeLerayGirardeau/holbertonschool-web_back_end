@@ -1,5 +1,5 @@
 const http = require('node:http');
-const countStudents = require('./3-read_file_async');
+const fs = require('node:fs').promises;
 
 const hostname = '127.0.0.1';
 const port = 1245;
@@ -16,26 +16,36 @@ const app = http.createServer(async (req, res) => {
   if (req.url === '/students') {
     res.writeHead(200, { 'Content-type': 'text/plain' });
     try {
-      const logs = [];
-      const originalLog = console.log;
-
-      console.log = (...args) => {
-        logs.push(args.join(' '));
-        originalLog(...args);
-      };
-
-      await countStudents(databasePath);
-
-      console.log = originalLog;
-
+      const studentData = await fs.readFile(databasePath, 'utf8');
       res.write('This is the list of our students\n');
-      res.write(logs.join('\n'));
-      return res.end();
+      const allStudent = studentData.split('\n').slice(1).filter(
+        (student) => student.length > 0,
+      );
+      res.write(`Number of students: ${allStudent.length}\n`);
 
+      const allSeparatedDatas = [];
+      for (const student of allStudent) {
+        const column = student.split(',');
+        allSeparatedDatas.push(column);
+      }
+      const fields = {};
+      for (const element of allSeparatedDatas) {
+        const firstname = element[0];
+        const field = element[3];
+
+        if (!fields[field]) fields[field] = [];
+
+        fields[field].push(firstname);
+      }
+      const lines = Object.keys(fields).map(
+        (field) => `Number of students in ${field}: ${
+          fields[field].length}. List: ${fields[field].join(', ')}`,
+      );
+      res.write(lines.join('\n'));
     } catch (error) {
-      console.log = originalLog;
       return res.end('Cannot load the database');
     }
+    return res.end();
   }
   res.writeHead(404, { 'Content-type': 'text/plain' });
   return res.end('Page not found');

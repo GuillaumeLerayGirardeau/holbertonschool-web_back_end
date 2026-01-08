@@ -1,18 +1,11 @@
-const express = require('node:express');
+const express = require('express');
+const { AppController } = require('./controllers/AppController');
+const { StudentsController } = require('./controllers/StudentsController')
 
-const hostname = '127.0.0.1';
-const port = 1245;
+const router = express.Router();
 
-const app = express();
+router.get('/', (req, res) => AppController.getHomepage(req, res));
+router.get('/students', (req, res) => StudentsController.getAllStudents(req, res));
+router.get('/students/:major', (req, res) => StudentsController.getAllStudentsByMajor(req, res));
 
-app.get('/', (req, res) => {
-  AppController.getHomepage(req, res);
-});
-
-app.get('/students', (req, res) => {
-
-});
-
-app.listen(port, () => {
-  console.log(`Server running at the port ${port}`);
-});
+module.exports = router;

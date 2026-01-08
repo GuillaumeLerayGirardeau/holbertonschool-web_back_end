@@ -1,17 +1,12 @@
-const express = require('node:express');
+import express from 'express';
+import router from './routes/index';
 
 const hostname = '127.0.0.1';
 const port = 1245;
 
 const app = express();
 
-app.get('/', (req, res) => {
-  AppController.getHomepage(req, res);
-});
-
-app.get('/students', (req, res) => {
-
-});
+app.use('/', router);
 
 app.listen(port, () => {
   console.log(`Server running at the port ${port}`);

@@ -4,7 +4,7 @@ class StudentsController{
 
   static getAllStudents(request, response) {
     try {
-      const data = readDatabase();
+      const data = readDatabase(process.argv[2]);
       response.send('This is the list of our students');
       for (const field in Object.keys(data)) {
         response.send(`Number of students in ${field}: ${data[field].length}. List: ${data[field].join(', ')}`);

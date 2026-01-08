@@ -43,6 +43,7 @@ const app = http.createServer(async (req, res) => {
       );
       res.write(lines.join('\n'));
     } catch (error) {
+      res.writeHead(404, { 'Content-type': 'text/plain' });
       return res.end('Cannot load the database');
     }
     return res.end();

@@ -1,29 +1,31 @@
-const fs = require('node:fs').promises;
+import fs from 'fs/promises';
 
-async function readDatabase(path) {
+export default async function readDatabase(path) {
   try {
-    const data = await fs.readFile(path);
-    const lineData = data.split('\n').slice(1).filter(x => x != '');
-    const studentData = [];
-    for (const line in lineData) {
-      const student = line.split(',');
-      studentData.push(student);
+    const data = await fs.readFile(path, 'utf8');
+
+    const lines = data.split('\n');
+    // On coupe la string a chaque \n pour faire les lignes
+    const rows = lines.slice(1).filter((line) => line.trim() !== '');
+    // On enleve le header et les lignes vides
+
+    const students = {};
+    // On creer un objet students pour regrouper les etudiants par domaine
+    for (const student of rows) {
+      const columns = student.split(',');
+      const firstName = columns[0];
+      const field = columns[3].trim();
+
+      if (!students[field]) {
+        students[field] = [];
+      }
+      students[field].push(firstName);
+
+      /* Dans l'objet students on ajoute des fields si ils ne sont pas deja là,
+      et on ajoute le nom de l'eleve a la field correspondante */
     }
-
-    const fields = {}
-    for (const student in studentData) {
-      const name = student[0];
-      const field = student[3];
-
-      if (!fields[field]) fields[field] = [];
-      fields[field].push(name);
-    }
-
-    return fields;
-    
-  } catch (error) {
-    throw new Error(error);
+    return students;
+  } catch (err) {
+    throw new Error('Cannot load the database');
   }
 }
-
-module.exports = {readDatabase};

@@ -1,17 +1,18 @@
-const readDatabase = require('/utils.js')
+import url from 'url';
+import readDatabase from '../utils';
 
-class StudentsController{
-
-  static getAllStudents(request, response) {
+export default class StudentsController {
+  static async getAllStudents(request, response) {
     try {
-      const data = readDatabase(process.argv[2]);
-      response.send('This is the list of our students');
-      for (const field in Object.keys(data)) {
-        response.send(`Number of students in ${field}: ${data[field].length}. List: ${data[field].join(', ')}`);
+      console.log(process.argv[2]);
+      const students = await readDatabase(process.argv[2]);
+      let result = 'This is the list of our students\n';
+      for (const field of Object.keys(students).sort()) {
+        result += `Number of students in ${field}: ${students[field].length}. List: ${students[field]}\n`;
       }
-      return response.status(200);
-    } catch (error) {
-      return response.status(500).send('Cannot load the database');
+      response.status(200).send(result.trimEnd());
+    } catch (err) {
+      response.status(500).send('Cannot load the database');
     }
   }
 
@@ -31,5 +32,4 @@ class StudentsController{
       response.status(500).send('Cannot load the database');
     }
   }
-
-};
+}
